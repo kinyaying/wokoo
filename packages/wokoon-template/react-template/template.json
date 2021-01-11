@@ -1,0 +1,12 @@
+{
+  "package": {
+    "dependencies": {
+      "react": "^17.0.1",
+      "react-dom": "^17.0.1",
+      "react-loader": "^2.4.7",
+      "@babel/core": "^7.12.10",
+      "@babel/preset-react": "^7.12.10",
+      "babel-loader": "^8.2.2"
+    }
+  }
+}

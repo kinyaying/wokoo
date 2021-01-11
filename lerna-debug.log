@@ -1,0 +1,14 @@
+0 silly argv {
+0 silly argv   _: [ 'create' ],
+0 silly argv   lernaVersion: '3.22.1',
+0 silly argv   '$0': '/usr/local/bin/lerna',
+0 silly argv   name: '@mytest'
+0 silly argv }
+1 notice cli v3.22.1
+2 verbose rootPath /Users/kin/MyCode/my-react-cli
+3 error Error: Invalid tag name "@mytest": Tags may not have any characters that encodeURIComponent encodes.
+3 error     at invalidTagName (/Users/kin/MyCode/my-react-cli/node_modules/npm-package-arg/npa.js:91:15)
+3 error     at fromRegistry (/Users/kin/MyCode/my-react-cli/node_modules/npm-package-arg/npa.js:296:13)
+3 error     at resolve (/Users/kin/MyCode/my-react-cli/node_modules/npm-package-arg/npa.js:81:12)
+3 error     at npa (/Users/kin/MyCode/my-react-cli/node_modules/npm-package-arg/npa.js:52:10)
+3 error     at CreateCommand.initialize (/Users/kin/MyCode/my-react-cli/node_modules/@lerna/create/index.js:54:29)
