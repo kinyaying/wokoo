@@ -1,11 +1,11 @@
 {
-  "name": "aaaaamy",
+  "name": "wokoo-init",
   "version": "0.0.0",
   "description": "> TODO: description",
   "author": "kinyaying <kinyaying@gmail.com>",
   "homepage": "",
-  "license": "ISC",
-  "main": "lib/aaaaamy.js",
+  "license": "MIT",
+  "main": "lib/create-react-app.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -18,5 +18,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "commander": "^6.2.1"
   }
 }
