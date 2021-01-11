@@ -41,7 +41,7 @@ async function createApp(appName) {
     JSON.stringify(packageJson, null, 2)
   )
   const originalDirectory = process.cwd()
-  process.chdir(root) //改变工作目录
+  process.chdir(root) //改变工作目录，进入项目目录
   console.log('----', originalDirectory, root, appName)
 
   await run(root, appName, originalDirectory)
@@ -53,37 +53,52 @@ async function createApp(appName) {
  * @param {*} originalDirectory 原始工作目录
  */
 async function run(root, appName, originalDirectory) {
-  const scriptName = 'react-scripts'
-  const templateName = 'cra-template'
-  const allDependencies = ['react', 'react-dom', scriptName, templateName]
+  // const scriptName = 'react-scripts'
+  const templateName = 'wokoo-template'
+  const allDependencies = [templateName]
+  // 安装wokoo-template包
   console.log('Installing packages. This might take a couple of minutes')
-  console.log(
-    `Installing ${chalk.cyan('react')}, ${chalk.cyan(
-      'react-dom'
-    )}, and ${chalk.cyan(scriptName)} with ${chalk.cyan(templateName)}...`
-  )
+  console.log(`Installing ${chalk.cyan(templateName)} ...`)
   await install(root, allDependencies)
-  // 根目录 项目名字 是否显示详细信息 原始目录  模板
-  let data = [root, appName, true, originalDirectory, templateName]
-  let source = `
-      var init = require('react-scripts/scripts/init.js')
-      console.log('process.argv[1]::::', process.argv[1])
-      init.apply(null, JSON.parse(process.argv[1]))
-  `
-  await executeNodeScript({ cwd: process.cwd() }, data, source)
+  // // 根目录 项目名字 是否显示详细信息 原始目录  模板
+  // let data = [root, appName, true, originalDirectory, templateName]
+  // let source = `
+  //     var init = require('react-scripts/scripts/init.js')
+  //     console.log('process.argv[1]::::', process.argv[1])
+  //     init.apply(null, JSON.parse(process.argv[1]))
+  // `
+  // await executeNodeScript({ cwd: process.cwd() }, data, source)
+
+  const templatePath = path.dirname(
+    require.resolve(`${templateName}/package.json`, { paths: [root] })
+  )
+  // Copy the files for the user
+  const templateDir = path.join(templatePath, 'vue-template')
+  console.log('templatePath:', templatePath, templateDir)
+
+  if (fs.existsSync(templateDir)) {
+    fs.copySync(templateDir, root)
+  } else {
+    console.error(
+      `Could not locate supplied template: ${chalk.green(templateDir)}`
+    )
+    return
+  }
+
   console.log('done!')
   process.exit(0)
 }
-async function executeNodeScript({ cwd }, data, source) {
-  return new Promise((resolve) => {
-    const child = spawn(
-      process.execPath,
-      ['-e', source, '--', JSON.stringify(data)],
-      { cwd, stdio: 'inherit' }
-    ) // node -e source -- JSON.stringify(data)  => 把data传给source
-    child.on('close', resolve)
-  })
-}
+// async function executeNodeScript({ cwd }, data, source) {
+//   return new Promise((resolve) => {
+//     // 开启子线程
+//     const child = spawn(
+//       process.execPath,
+//       ['-e', source, '--', JSON.stringify(data)],
+//       { cwd, stdio: 'inherit' }
+//     ) // node -e source -- JSON.stringify(data)  => 把data传给source
+//     child.on('close', resolve)
+//   })
+// }
 async function install(root, allDependencies) {
   return new Promise((resolve) => {
     const command = 'yarnpkg'

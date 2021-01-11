@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "node packages/wokoon-scripts/index.js"
+    "start": "node packages/wokoo-scripts/index.js"
   },
   "keywords": [],
   "author": "kinyaying",
