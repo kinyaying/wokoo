@@ -21,5 +21,6 @@
   },
   "dependencies": {
     "commander": "^6.2.1"
-  }
+  },
+  "gitHead": "0be958400771d28365a681d0617ca37f3393aaf5"
 }
