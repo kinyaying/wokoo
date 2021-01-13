@@ -24,7 +24,7 @@ async function init() {
     .parse(process.argv) // [node路径，脚本路径，参数]
   await createApp(projectName)
 }
-
+console.log('program::::', program.info)
 async function createApp(appName) {
   let root = path.resolve(appName) // 要生成的项目的绝对路径
   fs.ensureDirSync(appName) // 没有则创建文件夹
