@@ -8,7 +8,7 @@ const { inherits } = require('util')
 const { runInContext } = require('vm')
 const packageJson = require('./package.json')
 const { exec } = require('child_process')
-console.log(process.argv)
+console.log(process.argv, 111)
 let program = new Command()
 init()
 async function init() {
