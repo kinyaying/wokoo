@@ -2,14 +2,15 @@ const MetalSmith = require('metalsmith') // 遍历文件夹
 let { render } = require('consolidate').ejs
 const { promisify } = require('util')
 const path = require('path')
+const fs = require('fs')
 render = promisify(render) // 包装渲染方法
-
+console.log('MetalSmith:', render)
 // 没有ask文件说明不需要编译
 // if (!fs.existsSync(path.join(target, 'ask.js'))) {
 //   await ncp(target, path.join(path.resolve(), projectName))
 // } else {
-const target = 't1'
-const projectName = 'test'
+const target = 't1' // 目标路径
+const projectName = 'test' // 写入路径
 async function handleTemplate() {
   await new Promise((resovle, reject) => {
     MetalSmith(__dirname)
@@ -21,7 +22,7 @@ async function handleTemplate() {
         //   require(path.join(target, 'ask.js'))
         // )
         let result = {
-          projectName: 'test',
+          projectName: 'my test',
           private: false,
           author: 'kin',
           description: 'this is test',
@@ -47,10 +48,10 @@ async function handleTemplate() {
               content = await render(content, metal.metadata()) // 用数据渲染模板
               console.log('Buffer.from(content)::', content)
 
-              fs.writeFileSync(
-                path.join(appPath, 'package.json'),
-                JSON.stringify(appPackage, null, 2) + os.EOL
-              )
+              // fs.writeFileSync(
+              //   path.join('', 'package.json'),
+              //   JSON.stringify(appPackage, null, 2) + os.EOL
+              // )
 
               files[file].contents = Buffer.from(content) // 渲染好的结果替换即可
             }

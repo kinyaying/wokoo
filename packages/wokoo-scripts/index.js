@@ -53,7 +53,7 @@ async function createApp(appName) {
  * @param {*} originalDirectory 原始工作目录
  */
 async function run(root, appName, originalDirectory) {
-  // const scriptName = 'react-scripts'
+  const scriptName = 'react-scripts'
   const templateName = 'wokoo-template'
   const allDependencies = [templateName]
   // 安装wokoo-template包
@@ -73,14 +73,21 @@ async function run(root, appName, originalDirectory) {
     require.resolve(`${templateName}/package.json`, { paths: [root] })
   )
   // Copy the files for the user
-  const templateDir = path.join(templatePath, 'vue-template')
-  console.log('templatePath:', templatePath, templateDir)
+  const templateDir = path.join(root, 'vue-template')
+  const scriptsDir = path.join(root, 'scripts')
+  const removeDir = path.join(root, 'react-template')
+  console.log('templatePath:', removeDir, removeDir)
 
-  if (fs.existsSync(templateDir)) {
+  if (fs.existsSync(templatePath)) {
+    fs.copySync(templatePath, root)
     fs.copySync(templateDir, root)
+    fs.copySync(scriptsDir, root)
+    deleteFolder(removeDir)
+    deleteFolder(templateDir)
+    deleteFolder(scriptsDir)
   } else {
     console.error(
-      `Could not locate supplied template: ${chalk.green(templateDir)}`
+      `Could not locate supplied template: ${chalk.green(templatePath)}`
     )
     return
   }
@@ -106,4 +113,20 @@ async function install(root, allDependencies) {
     const child = spawn(command, args, { stdio: 'inherit' })
     child.on('close', resolve) // 安装成功后触发resolve
   })
+}
+
+function deleteFolder(path) {
+  let files = []
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path)
+    files.forEach(function (file, index) {
+      let curPath = path + '/' + file
+      if (fs.statSync(curPath).isDirectory()) {
+        deleteFolder(curPath)
+      } else {
+        fs.unlinkSync(curPath)
+      }
+    })
+    fs.rmdirSync(path)
+  }
 }

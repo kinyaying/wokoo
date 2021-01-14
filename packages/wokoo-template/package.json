@@ -1,6 +1,6 @@
 {
   "name": "wokoo-template",
-  "version": "0.0.6",
+  "version": "0.0.12",
   "description": "> TODO: description",
   "author": "kinyaying <kinyaying@gmail.com>",
   "homepage": "",
@@ -11,7 +11,12 @@
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "lib",
+    "react-template",
+    "vue-template",
+    "public",
+    "scripts",
+    "tampermonkey.txt"
   ],
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
