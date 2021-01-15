@@ -12,13 +12,12 @@ console.log('MetalSmith:', render)
 // const target = 'vue-template' // 源路径
 // const projectName = 'temp' // 目标路径
 /**
- * 
+ *
  * @param {*} fromPath 源路径
  * @param {*} toPath 目标路径
  */
 async function handleTemplate(fromPath, toPath) {
   await new Promise((resovle, reject) => {
-    console.log('start:::', MetalSmith)
     MetalSmith(__dirname)
       .source(fromPath) // 遍历下载的目录
       .destination(path.join(path.resolve(), toPath)) // 输出渲染后的结果

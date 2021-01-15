@@ -2,15 +2,17 @@ const chalk = require('chalk')
 const spawn = require('cross-spawn')
 const { Command } = require('commander')
 const fs = require('fs-extra')
-const { resolve } = require('path')
 const path = require('path')
-const { inherits } = require('util')
-const { runInContext } = require('vm')
+// const ora = require('ora')
+const inquirer = require('inquirer')
+// const { inherits } = require('util')
+// const { runInContext } = require('vm')
 const packageJson = require('./package.json')
-const { exec } = require('child_process')
+// const { exec } = require('child_process')
 const handleTemplate = require('./handleTemplate')
 let program = new Command()
 init()
+// 程序入口，读取命令行脚本，获得项目名称
 async function init() {
   let projectName
   program
@@ -24,7 +26,6 @@ async function init() {
     .parse(process.argv) // [node路径，脚本路径，参数]
   await createApp(projectName)
 }
-console.log('program::::', program.info)
 async function createApp(appName) {
   let root = path.resolve(appName) // 要生成的项目的绝对路径
   fs.ensureDirSync(appName) // 没有则创建文件夹
@@ -42,12 +43,15 @@ async function createApp(appName) {
   )
   const originalDirectory = process.cwd()
   process.chdir(root) //改变工作目录，进入项目目录
-  console.log('----', originalDirectory, root, appName)
 
   await run(root, appName, originalDirectory)
 }
 /**
- *
+ * 1、进入项目路径
+ * 2、安装wokoo-template
+ * 3、复制模板文件到项目路径，替换ejs模板
+ * 4、删除多余文件
+ * 5、卸载wokoo-template
  * @param {*} root 项目路径
  * @param {*} appName 项目名
  * @param {*} originalDirectory 原始工作目录
@@ -58,12 +62,22 @@ async function run(root, appName, originalDirectory) {
   const allDependencies = [templateName, scriptName, 'lodash']
   // 安装wokoo-template包
   console.log('Installing packages. This might take a couple of minutes')
-  console.log(`Installing ${chalk.cyan(templateName)} ...`, 1111)
+  console.log(`Installing ${chalk.cyan(templateName)} ...`)
   try {
     await install(root, allDependencies)
   } catch (e) {
     console.log(`Installing ${chalk.red(templateName)} failed ...`, e)
   }
+
+  // 选择模板
+  const repos = ['vue', 'react']
+  const { targetTemplate } = await inquirer.prompt({
+    name: 'targetTemplate',
+    type: 'list',
+    message: 'which template do you prefer?',
+    choices: repos, // 选择模式
+  })
+  console.log('repo::::', targetTemplate)
 
   // // 根目录 项目名字 是否显示详细信息 原始目录  模板
   // let data = [root, appName, true, originalDirectory, templateName]
@@ -88,7 +102,7 @@ async function run(root, appName, originalDirectory) {
   if (fs.existsSync(templatePath)) {
     // /Users/kin/MyCode/wokoo/packages/wokoo-template
     // fs.copySync(templatePath, root) //拷贝整个模板到项目路径
-    await handleTemplate(templatePath + '/vue-template', 'temp')
+    await handleTemplate(templatePath + `/${targetTemplate}-template`, 'temp')
     console.log('success')
     // 删除不用的文件，整理目录
     fs.copySync(tempDir, root) // 源 目标
@@ -117,6 +131,11 @@ async function run(root, appName, originalDirectory) {
 //     child.on('close', resolve)
 //   })
 // }
+/**
+ * 使用npm安装项目依赖
+ * @param {*} root 项目路径
+ * @param {*} allDependencies 项目依赖
+ */
 async function install(root, allDependencies) {
   return new Promise((resolve) => {
     const command = 'npm'
@@ -130,7 +149,6 @@ async function install(root, allDependencies) {
       '--cwd',
       root,
     ]
-    // const args = ['add', '--exaxt', ...allDependencies, '--cwd', root] // root指定子进程工作目录
     const child = spawn(command, args, { stdio: 'inherit' })
     child.on('close', resolve) // 安装成功后触发resolve
   })
@@ -156,16 +174,4 @@ function deleteFolder(path) {
       fs.rmdirSync(path)
     }
   }
-}
-
-async function copyFile(from, to) {
-  return new Promise((resolve, reject) => {
-    fs.copyFile(from, to, (err, data) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve('success')
-      }
-    })
-  })
 }

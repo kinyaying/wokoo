@@ -1,0 +1,10 @@
+// ==UserScript==
+// @name         <%=projectName%>
+// @namespace    http://tampermonkey.net/
+// @version      <%=version%>
+// @description  try to take over the world!
+// @author       <%=author%>
+// @match        https://www.baidu.com/ ## 默认多少？
+// @require      http://localhost:8082/app.bundle.js
+// ==/UserScript==
+
