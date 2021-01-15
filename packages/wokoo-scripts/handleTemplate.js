@@ -9,17 +9,24 @@ console.log('MetalSmith:', render)
 // if (!fs.existsSync(path.join(target, 'ask.js'))) {
 //   await ncp(target, path.join(path.resolve(), projectName))
 // } else {
-const target = 't1' // 目标路径
-const projectName = 'test' // 写入路径
-async function handleTemplate() {
+// const target = 'vue-template' // 源路径
+// const projectName = 'temp' // 目标路径
+/**
+ * 
+ * @param {*} fromPath 源路径
+ * @param {*} toPath 目标路径
+ */
+async function handleTemplate(fromPath, toPath) {
   await new Promise((resovle, reject) => {
+    console.log('start:::', MetalSmith)
     MetalSmith(__dirname)
-      .source(target) // 遍历下载的目录
-      .destination(path.join(path.resolve(), projectName)) // 输出渲染后的结果
+      .source(fromPath) // 遍历下载的目录
+      .destination(path.join(path.resolve(), toPath)) // 输出渲染后的结果
       .use(async (files, metal, done) => {
+        console.log('middleware 1')
         // 弹框询问用户
         // const result = await Inquirer.prompt(
-        //   require(path.join(target, 'ask.js'))
+        //   require(path.join(fromPath, 'ask.js'))
         // )
         let result = {
           projectName: 'my test',
@@ -28,6 +35,7 @@ async function handleTemplate() {
           description: 'this is test',
           license: 'MIT',
           version: '0.0.1',
+          basicProject: 'react',
         }
         const data = metal.metadata()
         Object.assign(data, result) // 将询问的结果放到metadata中保证在下一个中间件中可以获取到
@@ -35,12 +43,14 @@ async function handleTemplate() {
         done()
       })
       .use((files, metal, done) => {
+        console.log('middleware 2')
         Reflect.ownKeys(files).forEach(async (file) => {
           let content = files[file].contents.toString() // 获取文件中的内容
           if (
             file.includes('.js') ||
             file.includes('.json') ||
-            file.includes('.txt')
+            file.includes('.txt') ||
+            file.includes('.md')
           ) {
             // 如果是js或者json才有可能是模板
             if (content.includes('<%')) {
@@ -60,16 +70,18 @@ async function handleTemplate() {
         done()
       })
       .build((err) => {
+        console.log('middleware 3', err)
         // 执行中间件
         if (!err) {
           resovle()
         } else {
-          reject()
+          reject(err)
         }
       })
   })
 }
 
-handleTemplate().then((r) => {
-  console.log('success')
-})
+// handleTemplate().then((r) => {
+//   console.log('success')
+// })
+module.exports = handleTemplate

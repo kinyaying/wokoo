@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         taobao ## 项目名
+// @name         <%=projectName%>
 // @namespace    http://tampermonkey.net/
-// @version      0.1 ## 默认版本
+// @version      <%=version%>
 // @description  try to take over the world!
-// @author       You ## 开发者
+// @author       <%=author%>
 // @match        https://www.baidu.com/ ## 默认多少？
 // @require      http://localhost:8082/app.bundle.js
 // ==/UserScript==

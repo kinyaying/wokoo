@@ -8,7 +8,7 @@ const { inherits } = require('util')
 const { runInContext } = require('vm')
 const packageJson = require('./package.json')
 const { exec } = require('child_process')
-console.log(process.argv, 111)
+const handleTemplate = require('./handleTemplate')
 let program = new Command()
 init()
 async function init() {
@@ -53,13 +53,18 @@ async function createApp(appName) {
  * @param {*} originalDirectory 原始工作目录
  */
 async function run(root, appName, originalDirectory) {
-  const scriptName = 'react-scripts'
+  const scriptName = 'moment'
   const templateName = 'wokoo-template'
-  const allDependencies = [templateName]
+  const allDependencies = [templateName, scriptName, 'lodash']
   // 安装wokoo-template包
   console.log('Installing packages. This might take a couple of minutes')
-  console.log(`Installing ${chalk.cyan(templateName)} ...`)
-  await install(root, allDependencies)
+  console.log(`Installing ${chalk.cyan(templateName)} ...`, 1111)
+  try {
+    await install(root, allDependencies)
+  } catch (e) {
+    console.log(`Installing ${chalk.red(templateName)} failed ...`, e)
+  }
+
   // // 根目录 项目名字 是否显示详细信息 原始目录  模板
   // let data = [root, appName, true, originalDirectory, templateName]
   // let source = `
@@ -69,26 +74,28 @@ async function run(root, appName, originalDirectory) {
   // `
   // await executeNodeScript({ cwd: process.cwd() }, data, source)
 
+  // /Users/kin/MyCode/wokoo/packages/wokoo-template
   const templatePath = path.dirname(
     require.resolve(`${templateName}/package.json`, { paths: [root] })
   )
+  console.log('templatePath:::', templatePath)
   // Copy the files for the user
-  const templateDir = path.join(root, 'vue-template')
-  const templatePkgDir = path.join(root, 'template.json')
-  const scriptsDir = path.join(root, 'scripts')
-  const scriptsConfigDir = path.join(root, 'webpack.config.react.js')
-  const removeDir = path.join(root, 'react-template')
-  console.log('templatePath:', removeDir, removeDir)
-
+  const scriptsConfigDir = path.join(templatePath, 'webpack.config.js')
+  const gitConfigDir = path.join(templatePath, '.gitignore')
+  console.log('templatePath:', templatePath, scriptsConfigDir)
+  // const removeList = ['vue-template', 'react-template', '']
+  const tempDir = path.join(root, 'temp')
   if (fs.existsSync(templatePath)) {
-    fs.copySync(templatePath, root)
-    fs.copySync(templateDir, root)
-    fs.copySync(scriptsDir, root)
-    deleteFolder(removeDir)
-    deleteFolder(templateDir)
-    deleteFolder(scriptsDir)
-    deleteFolder(scriptsConfigDir)
-    deleteFolder(templatePkgDir)
+    // /Users/kin/MyCode/wokoo/packages/wokoo-template
+    // fs.copySync(templatePath, root) //拷贝整个模板到项目路径
+    await handleTemplate(templatePath + '/vue-template', 'temp')
+    console.log('success')
+    // 删除不用的文件，整理目录
+    fs.copySync(tempDir, root) // 源 目标
+    fs.copySync(templatePath + '/public', root + '/public')
+    fs.copyFileSync(scriptsConfigDir, root + '/webpack.config.js')
+    fs.copyFileSync(gitConfigDir, root + '/.gitignore')
+    deleteFolder(tempDir)
   } else {
     console.error(
       `Could not locate supplied template: ${chalk.green(templatePath)}`
@@ -112,8 +119,18 @@ async function run(root, appName, originalDirectory) {
 // }
 async function install(root, allDependencies) {
   return new Promise((resolve) => {
-    const command = 'yarnpkg'
-    const args = ['add', '--exaxt', ...allDependencies, '--cwd', root] // root指定子进程工作目录
+    const command = 'npm'
+    const args = [
+      'install',
+      '--save',
+      '--save-exact',
+      '--loglevel',
+      'error',
+      ...allDependencies,
+      '--cwd',
+      root,
+    ]
+    // const args = ['add', '--exaxt', ...allDependencies, '--cwd', root] // root指定子进程工作目录
     const child = spawn(command, args, { stdio: 'inherit' })
     child.on('close', resolve) // 安装成功后触发resolve
   })
@@ -139,4 +156,16 @@ function deleteFolder(path) {
       fs.rmdirSync(path)
     }
   }
+}
+
+async function copyFile(from, to) {
+  return new Promise((resolve, reject) => {
+    fs.copyFile(from, to, (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve('success')
+      }
+    })
+  })
 }

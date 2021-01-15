@@ -1,6 +1,12 @@
-# Wokoon 使用说明
+# wokoo-template
 
-此项目使用 Wokoon 脚手架搭建的。[Wokoon](https://github.com/facebook/create-react-app).
+是 wokoo 脚手架的模板部分，配合 wokoo，用于初始化一个有基础配置的油猴项目。
+
+## 功能
+
+- 提供 vue 和 react 的基本工程项目，根据用户选择生成指定基础项目
+- 提供基础的 webpack 配置
+- tampermonkey.txt 提供基本的油猴脚本配置
 
 ## 开发
 
@@ -16,10 +22,12 @@
 2. 将油猴脚手架中的文件指向本地构建出的文件地址，测试是否正常
 3. 部署 dist 目录下的文件
 
-## 自带的库
+## 使用到的库
 
 - vue
+- react
 - less
+- webpack
 
 ## 目录结构
 

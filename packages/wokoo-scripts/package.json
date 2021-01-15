@@ -10,6 +10,9 @@
     "lib": "lib",
     "test": "__tests__"
   },
+  "bin": {
+    "wokoo": "./bin/www"
+  },
   "files": [
     "lib"
   ],
