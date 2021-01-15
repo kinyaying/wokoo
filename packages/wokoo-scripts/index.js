@@ -74,7 +74,9 @@ async function run(root, appName, originalDirectory) {
   )
   // Copy the files for the user
   const templateDir = path.join(root, 'vue-template')
+  const templatePkgDir = path.join(root, 'template.json')
   const scriptsDir = path.join(root, 'scripts')
+  const scriptsConfigDir = path.join(root, 'webpack.config.react.js')
   const removeDir = path.join(root, 'react-template')
   console.log('templatePath:', removeDir, removeDir)
 
@@ -85,6 +87,8 @@ async function run(root, appName, originalDirectory) {
     deleteFolder(removeDir)
     deleteFolder(templateDir)
     deleteFolder(scriptsDir)
+    deleteFolder(scriptsConfigDir)
+    deleteFolder(templatePkgDir)
   } else {
     console.error(
       `Could not locate supplied template: ${chalk.green(templatePath)}`
@@ -115,18 +119,24 @@ async function install(root, allDependencies) {
   })
 }
 
+/**
+ * 删除文件、文件夹
+ * @param {*} path 要删除资源的路径
+ */
 function deleteFolder(path) {
   let files = []
   if (fs.existsSync(path)) {
-    files = fs.readdirSync(path)
-    files.forEach(function (file, index) {
-      let curPath = path + '/' + file
-      if (fs.statSync(curPath).isDirectory()) {
+    if (!fs.statSync(path).isDirectory()) {
+      // path是文件，直接删除
+      fs.unlinkSync(path)
+    } else {
+      // 删除文件夹
+      files = fs.readdirSync(path)
+      files.forEach(function (file) {
+        let curPath = path + '/' + file
         deleteFolder(curPath)
-      } else {
-        fs.unlinkSync(curPath)
-      }
-    })
-    fs.rmdirSync(path)
+      })
+      fs.rmdirSync(path)
+    }
   }
 }
