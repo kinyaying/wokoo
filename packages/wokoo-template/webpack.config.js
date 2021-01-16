@@ -1,18 +1,34 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { merge } = require('webpack-merge')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const base = require('./webpack.config.base')
 
 module.exports = merge(base, {
-  entry: {
-    app: './vue-template/src/index.js',
+  mode: process.env.NODE_ENV || 'production',
+  devtool: 'source-map',
+  output: {
+    filename: '[name].bundle.js',
+    path: __dirname + '/dist',
   },
   module: {
     rules: [
       {
-        test: /\.vue$/,
-        loader: 'vue-loader',
+        test: /\.(less|css)$/,
+        use: ['style-loader', 'css-loader', 'less-loader'],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf|png|svg|jpg|gif)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 20480,
+          },
+        },
       },
     ],
   },
-  plugins: [new VueLoaderPlugin()],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
 })

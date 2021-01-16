@@ -18,7 +18,7 @@
 </template>
 <script>
 import './app.css'
-import logo from '../../public/icon.jpg'
+import logo from '../public/icon.jpg'
 export default {
   data: function() {
     return {

@@ -35,6 +35,10 @@ async function createApp(appName) {
     name: appName,
     version: '0.0.1',
     private: true,
+    scripts: {
+      start: 'webpack-dev-server',
+      build: 'webpack',
+    },
   }
   // 编写package.json
   fs.writeFileSync(
@@ -59,7 +63,7 @@ async function createApp(appName) {
 async function run(root, appName, originalDirectory) {
   const scriptName = 'moment'
   const templateName = 'wokoo-template'
-  const allDependencies = [templateName, scriptName, 'lodash']
+  const allDependencies = [templateName, scriptName]
   // 安装wokoo-template包
   console.log('Installing packages. This might take a couple of minutes')
   console.log(`Installing ${chalk.cyan(templateName)} ...`)
@@ -92,15 +96,14 @@ async function run(root, appName, originalDirectory) {
   const templatePath = path.dirname(
     require.resolve(`${templateName}/package.json`, { paths: [root] })
   )
-  console.log('templatePath:::', templatePath)
+
   // Copy the files for the user
   const scriptsConfigDir = path.join(templatePath, 'webpack.config.js')
   const gitConfigDir = path.join(templatePath, '.gitignore')
-  console.log('templatePath:', templatePath, scriptsConfigDir)
-  // const removeList = ['vue-template', 'react-template', '']
+  console.log('templatePath:', templatePath, scriptsConfigDir, root)
   const tempDir = path.join(root, 'temp')
+  // 从wokoo-template中拷贝模板到项目目录
   if (fs.existsSync(templatePath)) {
-    // /Users/kin/MyCode/wokoo/packages/wokoo-template
     // fs.copySync(templatePath, root) //拷贝整个模板到项目路径
     await handleTemplate(templatePath + `/${targetTemplate}-template`, 'temp')
     console.log('success')
@@ -108,7 +111,7 @@ async function run(root, appName, originalDirectory) {
     fs.copySync(tempDir, root) // 源 目标
     fs.copySync(templatePath + '/public', root + '/public')
     fs.copyFileSync(scriptsConfigDir, root + '/webpack.config.js')
-    fs.copyFileSync(gitConfigDir, root + '/.gitignore')
+    // fs.copyFileSync(gitConfigDir, root + '/.gitignore')
     deleteFolder(tempDir)
   } else {
     console.error(
@@ -116,6 +119,24 @@ async function run(root, appName, originalDirectory) {
     )
     return
   }
+  // TODO 简便写法  合并template.json和package.json
+  let tempPkg = fs.readFileSync(root + '/template.json').toString()
+  let pkg = fs.readFileSync(root + '/package.json').toString()
+  const tempPkgJson = JSON.parse(tempPkg)
+  const pkgJson = JSON.parse(pkg)
+  console.log('pkgJson:::', typeof pkgJson, tempPkgJson.package)
+
+  pkgJson.dependencies = {
+    ...pkgJson.dependencies,
+    ...tempPkgJson.package.dependencies,
+  }
+  pkgJson.devDependencies = {
+    ...tempPkgJson.package.devDependencies,
+  }
+  fs.writeFileSync(root + '/package.json', JSON.stringify(pkgJson))
+  fs.unlinkSync(root + '/template.json') // 删除template文件
+
+  // 再次安装package
 
   console.log('done!')
   process.exit(0)

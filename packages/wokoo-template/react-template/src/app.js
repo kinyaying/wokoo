@@ -1,7 +1,7 @@
 import React from 'react'
 import './app.css'
-import logo from '../../public/icon.jpg'
-export default function() {
+import logo from '../public/icon.jpg'
+export default function () {
   return (
     <div className="App">
       <header className="App-header">

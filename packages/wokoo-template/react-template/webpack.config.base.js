@@ -3,7 +3,7 @@ const base = require('./webpack.config.base')
 
 module.exports = merge(base, {
   entry: {
-    app: './react-template/src/index.js',
+    app: '/src/index.js',
   },
   module: {
     rules: [
