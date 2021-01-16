@@ -17,7 +17,7 @@
     </div>
 </template>
 <script>
-import './app.css'
+import './app.less'
 import logo from '../public/icon.jpg'
 export default {
   data: function() {
