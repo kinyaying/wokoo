@@ -61,9 +61,8 @@ async function createApp(appName) {
  * @param {*} originalDirectory 原始工作目录
  */
 async function run(root, appName, originalDirectory) {
-  const scriptName = 'moment'
   const templateName = 'wokoo-template'
-  const allDependencies = [templateName, scriptName]
+  const allDependencies = [templateName]
   // 安装wokoo-template包
   console.log('Installing packages. This might take a couple of minutes')
   console.log(`Installing ${chalk.cyan(templateName)} ...`)
@@ -133,12 +132,35 @@ async function run(root, appName, originalDirectory) {
   pkgJson.devDependencies = {
     ...tempPkgJson.package.devDependencies,
   }
-  fs.writeFileSync(root + '/package.json', JSON.stringify(pkgJson))
-  fs.unlinkSync(root + '/template.json') // 删除template文件
+  // 编写package.json
+  fs.writeFileSync(
+    path.join(root, 'package.json'),
+    JSON.stringify(pkgJson, null, 2)
+  )
+  fs.unlinkSync(path.join(root, 'template.json')) // 删除template文件
 
   // 再次安装package
+  // Install additional template dependencies, if present.
+  const dependenciesToInstall = Object.entries({
+    ...pkgJson.dependencies,
+    ...pkgJson.devDependencies,
+  })
+  let newDependencies = []
+  if (dependenciesToInstall.length) {
+    newDependencies = newDependencies.concat(
+      dependenciesToInstall.map(([dependency, version]) => {
+        return `${dependency}@${version}`
+      })
+    )
+  }
 
-  console.log('done!')
+  await install(root, newDependencies)
+  console.log('sucess installed!')
+
+  // 卸载wokoo-template
+  await uninstall(root, 'wokoo-template')
+  console.log('sucess uninstalled!')
+
   process.exit(0)
 }
 // async function executeNodeScript({ cwd }, data, source) {
@@ -162,6 +184,27 @@ async function install(root, allDependencies) {
     const command = 'npm'
     const args = [
       'install',
+      '--save',
+      '--save-exact',
+      '--loglevel',
+      'error',
+      ...allDependencies,
+      '--cwd',
+      root,
+    ]
+    const child = spawn(command, args, { stdio: 'inherit' })
+    child.on('close', resolve) // 安装成功后触发resolve
+  })
+}
+
+async function uninstall(root, allDependencies) {
+  typeof allDependencies === 'string'
+    ? (allDependencies = [allDependencies])
+    : null
+  return new Promise((resolve) => {
+    const command = 'npm'
+    const args = [
+      'uninstall',
       '--save',
       '--save-exact',
       '--loglevel',
