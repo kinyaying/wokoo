@@ -1,10 +1,19 @@
 // ==UserScript==
-// @name         <%=projectName%>
+// @name         my test
 // @namespace    http://tampermonkey.net/
-// @version      <%=version%>
+// @version      0.0.1
 // @description  try to take over the world!
-// @author       <%=author%>
-// @match        https://www.baidu.com/ ## 默认多少？
-// @require      http://localhost:8082/app.bundle.js
+// @author       kin
+// @match        https://*/*
+// @match        http://*/*
+
+
 // ==/UserScript==
 
+(function() {
+    'use strict';
+let script = document.createElement('script')
+script.src='http://localhost:8080/app.bundle.js'
+document.body.appendChild(script)
+    // Your code here...
+})();
