@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         <%=projectName%>
+// @name         my test
 // @namespace    http://tampermonkey.net/
-// @version      <%=version%>
+// @version      0.0.1
 // @description  try to take over the world!
-// @author       
+// @author       kin
 // @match        https://*/*
 // @match        http://*/*
 

@@ -3,13 +3,9 @@ const spawn = require('cross-spawn')
 const { Command } = require('commander')
 const fs = require('fs-extra')
 const path = require('path')
-// const ora = require('ora')
 const inquirer = require('inquirer')
-// const { inherits } = require('util')
-// const { runInContext } = require('vm')
 const packageJson = require('./package.json')
-// const { exec } = require('child_process')
-const handleTemplate = require('./handleTemplate')
+const modifyTemplate = require('./modifyTemplate') // 修改替换ejs模板内字段
 let program = new Command()
 init()
 // 程序入口，读取命令行脚本，获得项目名称
@@ -21,16 +17,19 @@ async function init() {
     .usage(`${chalk.green(`<project-directory>`)}`)
     .action((name) => {
       projectName = name
-      console.log('projectName:::', projectName)
     })
     .parse(process.argv) // [node路径，脚本路径，参数]
   await createApp(projectName)
 }
+/**
+ * 根据appName生成项目目录
+ * @param {*} appName
+ */
 async function createApp(appName) {
   let root = path.resolve(appName) // 要生成的项目的绝对路径
   fs.ensureDirSync(appName) // 没有则创建文件夹
   console.log(`create a new app in ${chalk.green(root)}`)
-
+  // 初始化package.json
   const packageJson = {
     name: appName,
     version: '0.0.1',
@@ -40,15 +39,15 @@ async function createApp(appName) {
       build: 'webpack',
     },
   }
-  // 编写package.json
+  // 写入package.json
   fs.writeFileSync(
     path.join(root, 'package.json'),
     JSON.stringify(packageJson, null, 2)
   )
-  const originalDirectory = process.cwd()
-  process.chdir(root) //改变工作目录，进入项目目录
-
-  await run(root, appName, originalDirectory)
+  // 改变工作目录，进入项目目录
+  process.chdir(root)
+  // 复制项目模板，安装项目依赖等
+  await run(root, appName)
 }
 /**
  * 1、进入项目路径
@@ -58,19 +57,19 @@ async function createApp(appName) {
  * 5、卸载wokoo-template
  * @param {*} root 项目路径
  * @param {*} appName 项目名
- * @param {*} originalDirectory 原始工作目录
  */
-async function run(root, appName, originalDirectory) {
-  const templateName = 'wokoo-template'
+async function run(root, appName) {
+  const templateName = 'wokoo-template' // 对应的wokoo模板
   const allDependencies = [templateName]
   // 安装wokoo-template包
   console.log('Installing packages. This might take a couple of minutes')
   console.log(`Installing ${chalk.cyan(templateName)} ...`)
   try {
-    await install(root, allDependencies)
+    await doAction(root, allDependencies)
   } catch (e) {
     console.log(`Installing ${chalk.red(templateName)} failed ...`, e)
   }
+  console.log(`Installing ${chalk.cyan(templateName)} succeed!`)
 
   // 选择模板
   const repos = ['vue', 'react']
@@ -80,37 +79,29 @@ async function run(root, appName, originalDirectory) {
     message: 'which template do you prefer?',
     choices: repos, // 选择模式
   })
-  console.log('repo::::', targetTemplate)
 
-  // // 根目录 项目名字 是否显示详细信息 原始目录  模板
-  // let data = [root, appName, true, originalDirectory, templateName]
-  // let source = `
-  //     var init = require('react-scripts/scripts/init.js')
-  //     console.log('process.argv[1]::::', process.argv[1])
-  //     init.apply(null, JSON.parse(process.argv[1]))
-  // `
-  // await executeNodeScript({ cwd: process.cwd() }, data, source)
-
-  // /Users/kin/MyCode/wokoo/packages/wokoo-template
   const templatePath = path.dirname(
     require.resolve(`${templateName}/package.json`, { paths: [root] })
   )
 
-  // Copy the files for the user
+  // 复制文件到项目目录
   const scriptsConfigDir = path.join(templatePath, 'webpack.config.js')
-  const gitConfigDir = path.join(templatePath, '.gitignore')
-  console.log('templatePath:', templatePath, scriptsConfigDir, root)
-  const tempDir = path.join(root, 'temp')
+  const gitIgnoreDir = path.join(templatePath, '.npmignore')
+  const publicDir = path.join(templatePath, 'public')
+  const tempDir = path.join(root, 'temp') // 临时模板路径
+  const templateDir = path.join(templatePath, `${targetTemplate}-template`)
   // 从wokoo-template中拷贝模板到项目目录
   if (fs.existsSync(templatePath)) {
-    // fs.copySync(templatePath, root) //拷贝整个模板到项目路径
-    await handleTemplate(templatePath + `/${targetTemplate}-template`, 'temp')
-    console.log('success')
-    // 删除不用的文件，整理目录
+    // 将templateDir内模板拷贝到temp文件，并修改模板文件中的ejs配置项
+    await modifyTemplate(templateDir, 'temp', {
+      projectName: appName,
+      basicProject: targetTemplate,
+    })
+
     fs.copySync(tempDir, root) // 源 目标
-    fs.copySync(templatePath + '/public', root + '/public')
+    fs.copySync(publicDir, root + '/public')
     fs.copyFileSync(scriptsConfigDir, root + '/webpack.config.js')
-    // fs.copyFileSync(gitConfigDir, root + '/.gitignore')
+    fs.copyFileSync(gitIgnoreDir, root + '/.gitignore')
     deleteFolder(tempDir)
   } else {
     console.error(
@@ -118,12 +109,11 @@ async function run(root, appName, originalDirectory) {
     )
     return
   }
-  // TODO 简便写法  合并template.json和package.json
+  // 合并template.json和package.json
   let tempPkg = fs.readFileSync(root + '/template.json').toString()
   let pkg = fs.readFileSync(root + '/package.json').toString()
   const tempPkgJson = JSON.parse(tempPkg)
   const pkgJson = JSON.parse(pkg)
-  console.log('pkgJson:::', typeof pkgJson, tempPkgJson.package)
 
   pkgJson.dependencies = {
     ...pkgJson.dependencies,
@@ -137,10 +127,9 @@ async function run(root, appName, originalDirectory) {
     path.join(root, 'package.json'),
     JSON.stringify(pkgJson, null, 2)
   )
-  fs.unlinkSync(path.join(root, 'template.json')) // 删除template文件
+  fs.unlinkSync(path.join(root, 'template.json')) // 删除template.json文件
 
-  // 再次安装package
-  // Install additional template dependencies, if present.
+  // 再次根据dependenciesToInstall执行npm install
   const dependenciesToInstall = Object.entries({
     ...pkgJson.dependencies,
     ...pkgJson.devDependencies,
@@ -153,58 +142,34 @@ async function run(root, appName, originalDirectory) {
       })
     )
   }
-
-  await install(root, newDependencies)
-  console.log('sucess installed!')
+  await doAction(root, newDependencies)
+  console.log(`${chalk.cyan('Installing succeed!')}`)
 
   // 卸载wokoo-template
-  await uninstall(root, 'wokoo-template')
-  console.log('sucess uninstalled!')
+  await doAction(root, 'wokoo-template', 'uninstall')
+
+  console.log('🎉  Successfully created project hello-world.')
+  console.log('👉  Get started with the following commands:')
+  console.log(`${chalk.cyan(`cd ${appName}`)}`)
+  console.log(`${chalk.cyan('$ npm start')}`)
 
   process.exit(0)
 }
-// async function executeNodeScript({ cwd }, data, source) {
-//   return new Promise((resolve) => {
-//     // 开启子线程
-//     const child = spawn(
-//       process.execPath,
-//       ['-e', source, '--', JSON.stringify(data)],
-//       { cwd, stdio: 'inherit' }
-//     ) // node -e source -- JSON.stringify(data)  => 把data传给source
-//     child.on('close', resolve)
-//   })
-// }
+
 /**
- * 使用npm安装项目依赖
+ * 使用npm安装或卸载项目依赖
  * @param {*} root 项目路径
  * @param {*} allDependencies 项目依赖
+ * @param {*} action npm install 或 npm uninstall
  */
-async function install(root, allDependencies) {
-  return new Promise((resolve) => {
-    const command = 'npm'
-    const args = [
-      'install',
-      '--save',
-      '--save-exact',
-      '--loglevel',
-      'error',
-      ...allDependencies,
-      '--cwd',
-      root,
-    ]
-    const child = spawn(command, args, { stdio: 'inherit' })
-    child.on('close', resolve) // 安装成功后触发resolve
-  })
-}
-
-async function uninstall(root, allDependencies) {
+async function doAction(root, allDependencies, action = 'install') {
   typeof allDependencies === 'string'
     ? (allDependencies = [allDependencies])
     : null
   return new Promise((resolve) => {
     const command = 'npm'
     const args = [
-      'uninstall',
+      action,
       '--save',
       '--save-exact',
       '--loglevel',

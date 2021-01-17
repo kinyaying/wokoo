@@ -17,7 +17,8 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "commander": "^6.2.1"
+    "commander": "^6.2.1",
+    "ora": "^5.2.0"
   },
   "gitHead": "b128ec4acf50267b70bfb22037b01590256455bf"
 }
