@@ -70,5 +70,5 @@ wokoo my-plugin
 ## 了解更多
 
 如果想了解更多内容，请访问下面的网址：
-[油猴脚手架 wokoo 使用说明](https://juejin.cn/post/6917643212119244813)
+[油猴脚手架 wokoo 使用说明](https://juejin.cn/post/6922815205575491597)
 [油猴脚手架 wokoo git 仓库](https://github.com/kinyaying/wokoo)
