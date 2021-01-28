@@ -148,7 +148,7 @@ async function run(root, appName) {
   // 卸载wokoo-template
   await doAction(root, 'wokoo-template', 'uninstall')
 
-  console.log('🎉  Successfully created project hello-world.')
+  console.log(`🎉  Successfully created project ${appName}.`)
   console.log('👉  Get started with the following commands:')
   console.log(`${chalk.cyan(`cd ${appName}`)}`)
   console.log(`${chalk.cyan('$ npm start')}`)
