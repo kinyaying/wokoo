@@ -68,11 +68,6 @@ npm run build
 我已经使用 wokoo 脚手架开发了多个 demo，并发布到[油猴市场](https://greasyfork.org/)，欢迎安装试用。
 [wokoo-demo](https://greasyfork.org/zh-CN/scripts/420327-wokoo-demo): 简单的示例插件
 
-[jsdeliver](https://greasyfork.org/zh-CN/scripts/420327-wokoo-demo):
-
-- 用于给 github 的静态资源进行 cdn 加速。本质上是将 github 的静态资源路径进行 url 拼接转化成从`https://cdn.jsdelivr.net`获取的 url。
-- 作用：github 的 url 访问速度较慢，需要翻墙才能获取。进行 cdn 加速后解决上问题。
-
 ## 了解更多
 
 如果想了解更多内容，请访问下面的网址：
