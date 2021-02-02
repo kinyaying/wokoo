@@ -16,11 +16,11 @@ export default class extends React.Component {
     return (
       <>
         {show ? (
-          <div className="App">
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
+          <div className="Wokoo">
+            <header className="Wokoo-header">
+              <img src={logo} className="Wokoo-logo" alt="logo" />
               <span
-                className="App-close-icon"
+                className="Wokoo-close-icon"
                 onClick={this.handleClose.bind(this)}
               >
                 X
@@ -29,8 +29,8 @@ export default class extends React.Component {
                 Edit <code>App.js</code> and save to reload.
               </p>
               <a
-                className="App-link"
-                href="https://reactjs.org"
+                className="Wokoo-link"
+                href="https://juejin.cn/post/6922815205575491597"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -39,8 +39,8 @@ export default class extends React.Component {
             </header>
           </div>
         ) : (
-          <div className="App-hide" onClick={this.handleClose.bind(this)}>
-            <img src={logo} className="App-hide-logo" alt="logo" />
+          <div className="Wokoo-hide" onClick={this.handleClose.bind(this)}>
+            <img src={logo} className="Wokoo-hide-logo" alt="logo" />
             open
           </div>
         )}

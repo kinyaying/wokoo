@@ -1,9 +1,9 @@
 <template>
-  <div class="App" v-if="show">
-    <header class="App-header">
-      <img :src="logo" class="App-logo" alt="logo" />
+  <div class="Wokoo" v-if="show">
+    <header class="Wokoo-header">
+      <img :src="logo" class="Wokoo-logo" alt="logo" />
       <span
-        class="App-close-icon"
+        class="Wokoo-close-icon"
         @click="handleClose"
       >
         ×
@@ -12,8 +12,8 @@
         Edit <code>App.vue</code> and save to reload.
       </p>
       <a
-        class="App-link"
-        href="https://reactjs.org"
+        class="Wokoo-link"
+        href="https://juejin.cn/post/6922815205575491597"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -21,8 +21,8 @@
       </a>
     </header>
   </div>
-  <div class="App-hide" @click="handleClose" v-else>
-    <img :src="logo" class="App-hide-logo" alt="logo" />
+  <div class="Wokoo-hide" @click="handleClose" v-else>
+    <img :src="logo" class="Wokoo-hide-logo" alt="logo" />
     open
   </div>
 </template>

@@ -11,9 +11,9 @@
 
 记得确认 node 版本：^10 || ^12 || >=14，否则会安装失败
 
-# Wokoon 使用说明
+# Wokoo 使用说明
 
-此项目使用 Wokoon 脚手架搭建的。[Wokoon](https://github.com/facebook/create-react-app).
+此项目使用 Wokoo 脚手架搭建的。[Wokoo](https://github.com/facebook/create-react-app).
 
 ## 开发
 
@@ -39,6 +39,6 @@
 ## 了解更多
 
 如果想了解更多内容，请访问下面的网址：
-油猴脚手架 Wokoon 开发篇
-油猴脚手架 Wokoon 使用说明
-油猴脚手架 Wokoon git 仓库
+油猴脚手架 Wokoo 开发篇
+油猴脚手架 Wokoo 使用说明
+油猴脚手架 Wokoo git 仓库

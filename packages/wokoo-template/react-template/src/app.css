@@ -1,4 +1,4 @@
-.App {
+.Wokoo {
   position: absolute;
   text-align: center;
   width: 400px;
@@ -7,18 +7,18 @@
   right: 0;
   z-index: 999;
 }
-.App-logo {
+.Wokoo-logo {
   height: 30vmin;
   border-radius: 50%;
   pointer-events: none;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  .Wokoo-logo {
+    animation: Wokoo-app-logo-spin infinite 20s linear;
   }
 }
 
-.App-header {
+.Wokoo-header {
   background-color: #6c4d25;
   display: flex;
   flex-direction: column;
@@ -29,16 +29,16 @@
   height: 100%;
 }
 
-.App-link {
+.Wokoo-link {
   color: #efb61c;
 }
-.App-close-icon {
+.Wokoo-close-icon {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
 }
-.App-hide {
+.Wokoo-hide {
   position: absolute;
   text-align: center;
   width: 100px;
@@ -53,14 +53,14 @@
   color: #fff;
   cursor: pointer;
 }
-.App-hide-logo {
+.Wokoo-hide-logo {
   width: 30px;
   height: 30px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-@keyframes App-logo-spin {
+@keyframes Wokoo-logo-spin {
   from {
     transform: rotate(0deg);
   }

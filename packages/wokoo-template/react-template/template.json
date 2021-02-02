@@ -1,7 +1,7 @@
 {
   "package": {
     "dependencies": {
-      "react": "^17.0.1",
+      "react": "^16.0.0",
       "react-dom": "^17.0.1",
       "react-loader": "^2.4.7",
       "@babel/core": "^7.12.10",
@@ -9,6 +9,10 @@
       "babel-loader": "^8.2.2"
     },
     "devDependencies": {
+      "@babel/plugin-proposal-class-properties": "^7.12.1",
+      "@babel/plugin-proposal-decorators": "^7.12.12",
+      "@babel/preset-env": "^7.12.11",
+      "cross-env": "^7.0.3",
       "css-loader": "^5.0.1",
       "file-loader": "^6.2.0",
       "html-webpack-plugin": "^4.5.1",
@@ -19,8 +23,7 @@
       "webpack": "^5.15.0",
       "webpack-cli": "^3.3.12",
       "webpack-dev-server": "^3.11.2",
-      "webpack-merge": "^5.7.3",
-      "cross-env": "^7.0.3"
+      "webpack-merge": "^5.7.3"
     }
   }
 }
