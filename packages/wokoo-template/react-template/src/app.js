@@ -1,5 +1,5 @@
 import React from 'react'
-import './app.css'
+import './app.less'
 import logo from '../public/icon.jpg'
 export default class extends React.Component {
   constructor(props) {

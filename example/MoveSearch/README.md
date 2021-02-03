@@ -1,10 +1,27 @@
-## <%=projectName%>
+## MoveSearch
 
-基于 wokoo 搭建的初始化工程，用于油猴插件开发。
+划词搜索插件
+
+## 功能
+
+基于油猴插件，在任何网页选中文字，弹出弹窗。弹窗内容是百度开发者搜索的内容。
+**优势：** 快速检索文章中的知识点
+
+## 开发
+
+基于 wokoo 脚手架搭建的初始化工程
+
+具体开发过程请阅读：xxx
+
+// 1. https://developer.mozilla.org/zh-CN/docs/Web/API/Window/getSelection mdn 自动中文
+// 业务难点
+// 1. 弹窗的位置计算
+// 2. 鼠标点击位置的边界检测
+// 3. baidu 接口跨域问题
 
 **基础配置：**
 
-- <%=basicProject%>
+- react
 - less
 - webpack
 
@@ -21,7 +38,7 @@
 │   └── index.html html 文件
 ├── src
 │   ├── app.less
-│   ├── app.<% if(basicProject=='vue'){ %>vue<% } %><% if (basicProject=='react') { %>js<% } %>
+│   ├── app.js
 │   └── index.js 项目入口
 ├── tampermonkey.txt 油猴脚本入口文件
 ├── webpack.config.base.js
