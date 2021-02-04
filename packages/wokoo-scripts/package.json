@@ -14,7 +14,8 @@
     "wokoo": "./bin/www"
   },
   "files": [
-    "lib"
+    "lib",
+    "modifyTemplate.js"
   ],
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
