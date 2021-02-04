@@ -74,7 +74,7 @@ export default class extends React.Component {
           document.documentElement.scrollTop || document.body.scrollTop
         axios
           .get(
-            `https://nextjs-lovat-kappa-87.vercel.app/api/baidu?query=${selectedText}&pageNum=1&pageSize=10`
+            `https://movesearch.vercel.app/api/baidu?query=${selectedText}&pageNum=1&pageSize=10`
           )
           .then((res) => {
             let { data } = res.data.data.documents

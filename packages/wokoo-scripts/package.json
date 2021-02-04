@@ -21,6 +21,12 @@
   },
   "gitHead": "b128ec4acf50267b70bfb22037b01590256455bf",
   "dependencies": {
-    "ora": "^5.2.0"
+    "chalk": "^4.1.0",
+    "commander": "^7.0.0",
+    "consolidate": "^0.16.0",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^9.1.0",
+    "inquirer": "^7.3.3",
+    "metalsmith": "^2.3.0"
   }
 }
