@@ -35,7 +35,6 @@ export default class extends React.Component {
   }
   componentDidMount() {
     document.addEventListener('mouseup', (e) => {
-      console.log(1111)
       var selectionObj = window.getSelection()
       var selectedText = selectionObj.toString()
       // 选中文字为空，说明当前操作为点击
@@ -111,7 +110,7 @@ export default class extends React.Component {
               <ul className="move-search-ul">
                 {data.map((l) => (
                   <li className="move-search-li" key={l.id}>
-                    <a href={l.url} target="blank">
+                    <a href={l.url} target="_blank">
                       {l.title}
                     </a>
                     <span>{l.summary}</span>
@@ -122,8 +121,8 @@ export default class extends React.Component {
             <div className="move-search-bottom-fade"></div>
             <footer className="move-search-footer">
               <a
-                href={`https://nextjs-lovat-kappa-87.vercel.app/api/baidu?query=${selectedText}&pageNum=1&pageSize=10`}
-                target="blank"
+                href={`https://kaifa.baidu.com/searchPage?wd=${selectedText}`}
+                target="_blank"
               >
                 Read More
               </a>
