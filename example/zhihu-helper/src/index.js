@@ -10,6 +10,6 @@ import App from './app'
 const wokooApp = document.createElement('div')
 wokooApp.id = 'wokooApp'
 wokooApp.className = 'wokoo-app'
-console.log('root:', root)
+
 document.body.appendChild(wokooApp)
 ReactDOM.render(<App />, wokooApp)
