@@ -1,6 +1,6 @@
 {
   "name": "wokoo-template",
-  "version": "0.2.3",
+  "version": "0.2.6",
   "description": "provide the basic template for wokoo-scrits to create a tampermonkey project",
   "author": "kinyaying <kinyaying@gmail.com>",
   "homepage": "",
