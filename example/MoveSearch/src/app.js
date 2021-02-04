@@ -35,6 +35,7 @@ export default class extends React.Component {
   }
   componentDidMount() {
     document.addEventListener('mouseup', (e) => {
+      console.log(1111)
       var selectionObj = window.getSelection()
       var selectedText = selectionObj.toString()
       // 选中文字为空，说明当前操作为点击
@@ -74,7 +75,7 @@ export default class extends React.Component {
           document.documentElement.scrollTop || document.body.scrollTop
         axios
           .get(
-            `https://kaifa.baidu.com/rest/v1/search?query=${selectedText}&pageNum=1&pageSize=10`
+            `https://nextjs-lovat-kappa-87.vercel.app/api/baidu?query=${selectedText}&pageNum=1&pageSize=10`
           )
           .then((res) => {
             let { data } = res.data.data.documents
@@ -121,7 +122,7 @@ export default class extends React.Component {
             <div className="move-search-bottom-fade"></div>
             <footer className="move-search-footer">
               <a
-                href={`https://kaifa.baidu.com/rest/v1/search?query=${selectedText}&pageNum=1&pageSize=10`}
+                href={`https://nextjs-lovat-kappa-87.vercel.app/api/baidu?query=${selectedText}&pageNum=1&pageSize=10`}
                 target="blank"
               >
                 Read More
