@@ -35,7 +35,7 @@ async function createApp(appName) {
     version: '0.0.1',
     private: true,
     scripts: {
-      start: 'cross-env NODE_ENV=development webpack-dev-server',
+      start: 'cross-env NODE_ENV=development webpack serve',
       build: 'webpack',
     },
   }
