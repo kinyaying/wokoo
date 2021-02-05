@@ -1,11 +1,19 @@
 import React from 'react'
-import InfiniteScroll from 'react-infinite-scroller'
-import './app.css'
 import axios from 'axios'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import './app.css'
+
+const limit = 20
 export default class extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { show: false, list: [], offset: 10 }
+    this.state = {
+      show: false,
+      list: [],
+      offset: 0,
+      hasMore: true,
+    }
+    this.queryName = null
   }
   handleShow = () => {
     this.setState({
@@ -17,7 +25,20 @@ export default class extends React.Component {
       show: true,
     })
     wokooApp.className = 'wokoo-app-spread'
+    this.getQueryName()
+    this.getList()
+  }
+  handleMouseLeave = () => {
+    this.setState({
+      show: false,
+    })
+    wokooApp.className = 'wokoo-app'
+  }
+  handleInfiniteOnLoad = () => {
+    this.getList()
+  }
 
+  getQueryName = () => {
     let pathname = location.pathname
     let detailRegExp = /^\/p\/\d+/
     let queryName = ''
@@ -36,59 +57,48 @@ export default class extends React.Component {
       }
       queryName = pathname
     }
+    this.queryName = queryName
+  }
 
+  getList = async () => {
+    if (!this.state.hasMore) return
+    let { offset } = this.state
     let { data } = await axios.get(
-      `https://www.zhihu.com/api/v4/columns${queryName}/items`
+      `https://www.zhihu.com/api/v4/columns${this.queryName}/items?limit=20&offset=${offset}`
     )
+    let list = data.data.map((i) => ({
+      title: i.title,
+      url: i.url,
+      id: i.id,
+    }))
+    if (list.length === 0) {
+      this.setState({ hasMore: false })
+      return
+    }
+    offset += limit
+
     this.setState({
-      list: data.data.map((i) => ({
-        title: i.title,
-        url: i.url,
-        id: i.id,
-      })),
+      list: [...this.state.list, ...list],
+      offset,
     })
-  }
-  handleMouseLeave = () => {
-    // this.setState({
-    //   show: false,
-    // })
-    // wokooApp.className = 'wokoo-app'
-  }
-  handleInfiniteOnLoad = async () => {
-    let queryName = '/powertrain'
-    console.log('handleInfiniteOnLoad======')
-    // let offset = this.state.offset
-    // this.setState({
-    //   offset: this.state.offset + 10,
-    // })
-    // let { data } = await axios.get(
-    //   `https://www.zhihu.com/api/v4/columns${queryName}/items?limit=10&offset=${this.state.offset}`
-    // )
-    // let list = data.data.map((i) => ({
-    //   title: i.title,
-    //   url: i.url,
-    //   id: i.id,
-    // }))
-    // this.setState({
-    //   list: [...this.state.list, ...list],
-    // })
-    // https://www.zhihu.com/api/v4/columns/powertrain/items?limit=10&offset=10
   }
 
   render() {
-    let { show, list } = this.state
+    let { show, list, hasMore } = this.state
     return (
       <>
         {show ? (
           <ul className="title-list-ul" onMouseLeave={this.handleMouseLeave}>
             <InfiniteScroll
-              pageStart={0}
-              loadMore={this.handleInfiniteOnLoad}
-              hasMore={true}
-              loader={
-                <div className="loader" key={0}>
-                  Loading ...
-                </div>
+              dataLength={list.length} //This is important field to render the next data
+              next={this.handleInfiniteOnLoad}
+              hasMore={hasMore}
+              loader={<h4>Loading...</h4>}
+              height={document.documentElement.clientHeight - 53}
+              endMessage={
+                <p style={{ textAlign: 'center' }}>
+                  <b>到底了，没内容啦~</b>
+                </p>
               }
             >
               {list.map((i) => (
@@ -105,11 +115,14 @@ export default class extends React.Component {
             onMouseOver={this.handleMouseOver}
             onMouseLeave={this.handleMouseLeave}
           >
-            <i className="octotree-toggle-icon" role="button"></i>
             <span>专栏目录</span>
+            <span className="octotree-toggle-icon" role="button">
+              »
+            </span>
           </div>
         )}
       </>
     )
   }
 }
+// ›>＞〉»

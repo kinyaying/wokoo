@@ -1,6 +1,11 @@
 module.exports = {
   entry: {
     app: '/src/index.js',
+    vendor: [
+      // 将react和react-dom这些单独打包出来，减小打包文件体积
+      'react',
+      'react-dom',
+    ],
   },
   module: {
     rules: [
@@ -13,7 +18,6 @@ module.exports = {
             plugins: [
               ['@babel/plugin-proposal-decorators', { legacy: true }],
               ['@babel/plugin-proposal-class-properties', { loose: true }],
-              ['@babel/plugin-transform-runtime'],
             ],
           },
         },

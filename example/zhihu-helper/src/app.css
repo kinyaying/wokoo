@@ -1,19 +1,24 @@
 .wokoo-app {
   position: fixed;
   top: 50%;
-  margin-top: -53px;
-  font-size: 15px;
+  margin-top: -47px;
 }
+
 .wokoo-app-spread {
   position: fixed;
   top: 52px;
   height: calc(100% - 52px);
-  width: 200px;
+  width: 250px;
   z-index: 99;
   background: #fff;
   font-size: 14px;
   overflow: auto;
+  overscroll-behavior: contain;
+  -ms-scroll-chaining: contain;
   box-shadow: 1px 0px 3px rgb(18 18 18 / 10%);
+}
+::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
 }
 .wokoo-app-spread .title-list-ul {
   padding: 10px;
@@ -29,7 +34,8 @@
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  /* box-sizing: border-box; */
+  left: 0;
+  box-sizing: border-box;
   --color-text-primary: #24292e;
   --color-bg-canvas: #ffffff;
   --color-border-primary: #e1e4e8;
@@ -43,7 +49,7 @@
   right: -30px;
   text-align: center;
   top: 33%;
-  width: 30px;
+  width: 36px;
   z-index: 1000000001;
   cursor: pointer;
   border-radius: 0px 4px 4px 0px;
@@ -51,7 +57,6 @@
   padding: 6px;
   transition: right 0.25s ease-in 0.2s, opacity 0.35s ease-in 0.2s;
 }
-
-.octotree-toggle span {
-  transform: rotate(-90deg);
+.octotree-toggle-icon {
+  margin-left: 4px;
 }
