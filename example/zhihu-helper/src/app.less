@@ -1,10 +1,10 @@
-.wokoo-app {
+.wokoo-app-fold {
   position: fixed;
   top: 50%;
   margin-top: -47px;
 }
 
-.wokoo-app-spread {
+.wokoo-app-unfold {
   position: fixed;
   top: 52px;
   height: calc(100% - 52px);
@@ -20,14 +20,25 @@
 ::-webkit-scrollbar {
   display: none; /* Chrome Safari */
 }
-.wokoo-app-spread .title-list-ul {
+.list-ul {
   padding: 10px;
 }
-.wokoo-app-spread .title-list-li {
-  margin-bottom: 10px;
+.list-li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f6f6f6;
 }
-.wokoo-app-spread .title-list-li:hover {
+.list-a {
+  display: block;
+  margin-bottom: 5px;
+}
+.list-span {
+  width: 50%;
+  display: inline-block;
+  text-align: right;
   color: #8590a6;
+}
+.list-li:hover {
+  color: #0066ff;
 }
 .octotree-toggle {
   display: flex;
@@ -59,4 +70,21 @@
 }
 .octotree-toggle-icon {
   margin-left: 4px;
+}
+.svg-icon {
+  display: inline-flex;
+  align-self: center;
+  position: relative;
+  height: 1em;
+  width: 1em;
+  color: #0066ff;
+  opacity: 0.3;
+  margin-right: 5px;
+}
+
+.svg-icon svg {
+  height: 1em;
+  width: 1em;
+  bottom: -0.125em;
+  position: absolute;
 }

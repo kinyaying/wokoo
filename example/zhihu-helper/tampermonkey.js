@@ -2,10 +2,12 @@
 // @name         zhihu-helper
 // @namespace    http://tampermonkey.net/
 // @version      0.0.1
-// @description  try to take over the world!
-// @author
-// @match        https://*/*
-// @match        http://*/*
+// @description  知乎目录
+// @author       kinyaying
+// @match        https://zhuanlan.zhihu.com/*
+// @match        https://www.zhihu.com/column/*
+// @require https://unpkg.com/react@17/umd/react.production.min.js
+// @require https://unpkg.com/react-dom@17/umd/react-dom.production.min.js
 
 // ==/UserScript==
 
