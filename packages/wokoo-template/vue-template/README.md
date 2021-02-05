@@ -70,6 +70,8 @@ npm run build
 [zhihu-helper](https://greasyfork.org/zh-CN/scripts/420327-wokoo-demo): 知乎目录
 [MoveSearch](https://greasyfork.org/zh-CN/scripts/420327-MoveSearch): 划词搜索，默认搜[开发者搜索](http://kaifa.baidu.com)
 
+[快速上手油猴插件开发（实战篇）](https://juejin.cn/post/6925605904561750030) 详细写了开发过程
+
 ## 了解更多
 
 如果想了解更多内容，请访问下面的网址：
