@@ -62,6 +62,7 @@ export default class extends React.Component {
 
   getList = async () => {
     if (!this.state.hasMore) return
+    if (this.queryName === '/') return
     let { offset } = this.state
     let { data } = await axios.get(
       `https://www.zhihu.com/api/v4/columns${this.queryName}/items?limit=20&offset=${offset}`

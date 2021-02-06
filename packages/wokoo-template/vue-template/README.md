@@ -67,7 +67,7 @@ npm run build
 
 我已经使用 wokoo 脚手架开发了多个 demo，并发布到[油猴市场](https://greasyfork.org/)，欢迎安装试用。
 [wokoo-demo](https://greasyfork.org/zh-CN/scripts/420327-wokoo-demo): 简单的示例插件
-[zhihu-helper](https://greasyfork.org/zh-CN/scripts/420327-wokoo-demo): 知乎目录
+[zhihu-helper](https://greasyfork.org/zh-CN/scripts/421238-zhihu-helper): 知乎目录
 [MoveSearch](https://greasyfork.org/zh-CN/scripts/420327-MoveSearch): 划词搜索，默认搜[开发者搜索](http://kaifa.baidu.com)
 
 [快速上手油猴插件开发（实战篇）](https://juejin.cn/post/6925605904561750030) 详细写了开发过程
