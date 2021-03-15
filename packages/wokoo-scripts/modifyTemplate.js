@@ -5,11 +5,20 @@ const path = require('path')
 render = promisify(render) // 包装渲染方法
 
 /**
- *
+ * 遍历template文件夹，将内部的.js .json .txt .md文件中ejs模板替换成注入的变量
+ * 例如 wokoo-template/vue-template/tampermokey.js 文件中的 <%=projectName%> 会被替换成config中的projectName
  * @param {*} fromPath 源路径
  * @param {*} toPath 目标路径
+ * @param {object} config 配置，eg.
+ * {
+      projectName: appName,
+      basicProject: targetTemplate,
+    }
  */
 async function handleTemplate(fromPath, toPath, config) {
+  fromPath = '/Users/kin/MyCode/wokoo/packages/wokoo-template/react-template'
+  console.log('fromPath::', fromPath)
+
   await new Promise((resovle, reject) => {
     MetalSmith(__dirname)
       .source(fromPath) // 遍历下载的目录
@@ -20,6 +29,7 @@ async function handleTemplate(fromPath, toPath, config) {
           license: 'MIT',
           version: '0.0.1',
           ...config,
+          randomNumber: new Date().getTime().toString().slice(8),
         }
         const data = metal.metadata()
         Object.assign(data, result) // 将询问的结果放到metadata中保证在下一个中间件中可以获取到

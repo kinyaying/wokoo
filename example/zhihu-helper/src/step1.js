@@ -17,14 +17,13 @@ export default class extends React.Component {
     this.setState({
       show: true,
     })
-    wokooApp.className = 'wokoo-app-unfold'
+    wokooAppZhihu.className = 'wokoo-app-unfold'
   }
   handleMouseLeave = () => {
-    console.log('handleMouseLeave::::')
     this.setState({
       show: false,
     })
-    wokooApp.className = 'wokoo-app-fold'
+    wokooAppZhihu.className = 'wokoo-app-fold'
   }
 
   render() {

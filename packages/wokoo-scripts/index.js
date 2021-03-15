@@ -50,10 +50,11 @@ async function createApp(appName) {
   await run(root, appName)
 }
 /**
- * 1、安装wokoo-template
- * 2、复制模板文件到临时文件夹temp，并替换其中的ejs模板
- * 3、删除临时文件夹temp
- * 4、卸载wokoo-template
+ 1、安装wokoo-template
+ 2、复制模板文件到临时文件夹temp，
+ 3、调用modifyTemplate替换其中的ejs模板
+ 4、删除临时文件夹temp
+ 5、卸载wokoo-template
  * @param {*} root 项目路径
  * @param {*} appName 项目名
  */

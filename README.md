@@ -1,44 +1,32 @@
-油猴：
-优势：
+# Wokoo脚手架
 
-1. 不用发布审核
-2. 油猴封装的 api
+- 一键式创建基于油猴插件的基础工程
+- 自带的油猴配置文件 👉 tampermonkey.js
+- 提供实时开发，实时查看插件效果的解决方案
+- 提供绕过csp安全策略解决方案
 
-缺点：
-能力依赖油猴插件，如果油猴插件不支持则搞不定
 
-油猴插件支持的原生能力：
+不太了解油猴插件是什么？先阅读这篇文章补充基础知识吧 [Chrome 插件大杀器：「油猴」Tampermonkey 使用详解](https://zhuanlan.zhihu.com/p/99390731)
+如何使用？ 👉 [5分钟上手开发浏览器插件——油猴脚手架wokoo(使用篇)](https://juejin.cn/post/6922815205575491597)
+还提供了两款有意思的油猴插件开发案例 👉 [快速上手油猴插件开发（实战篇）](https://juejin.cn/post/6925605904561750030/)
+想知道Wokoo脚手架怎么搭建的吗？ 👉 [wokoo脚手架（搭建篇）](https://juejin.cn/post/6925613440752943112#)
 
-记得确认 node 版本：^10 || ^12 || >=14，否则会安装失败
 
-# Wokoo 使用说明
+# 使用
 
-此项目使用 Wokoo 脚手架搭建的。[Wokoo](https://github.com/facebook/create-react-app).
+1. 创建基础项目
 
-## 开发
+  ```shell
+   npx wokoo my-app
+  ```
 
-1. 起服务
-   `npm start`
-2. 浏览器打开网页，确认项目正常
-3. 复制 tampermonkey.txt 里的内容到油猴脚本中即可。
+2. 起服务
 
-## 构建
+  ```
+   npm start
+  ```
 
-1. 构建出包
-   `npm run build`
-2. 将油猴脚手架中的文件指向本地构建出的文件地址，测试是否正常
-3. 部署 dist 目录下的文件
+3. 复制tampermonkey.js内容到[油猴插件编辑器](chrome-extension://dhdgffkkebhmkfjojejmpbldmpobfkfo/options.html#url=&nav=new-user-script)，注意：要复制全部内容，包括注释部分。（此步骤默认你已经安装了油猴插件，没安装的话就安装下 👉[油猴插件安装地址](https://chrome.google.com/webstore/detail/tampermonkey-beta/gcalenpjmijncebpfijmoaglllgpjagf?hl=zh-CN)）
 
-## 自带的库
+4. 打开某网页，你能看到一只的猴子🐒，代表流程已跑通，你只需开发自己的业务代码即可🎉。
 
-- vue
-- less
-
-## 目录结构
-
-## 了解更多
-
-如果想了解更多内容，请访问下面的网址：
-油猴脚手架 Wokoo 开发篇
-油猴脚手架 Wokoo 使用说明
-油猴脚手架 Wokoo git 仓库

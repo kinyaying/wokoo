@@ -23,7 +23,7 @@ export default class extends React.Component {
     this.setState({
       show: true,
     })
-    wokooApp.className = 'wokoo-app-unfold'
+    wokooAppZhihu.className = 'wokoo-app-unfold'
     this.getQueryName()
     this.getList()
   }
@@ -31,7 +31,7 @@ export default class extends React.Component {
     this.setState({
       show: false,
     })
-    wokooApp.className = 'wokoo-app'
+    wokooAppZhihu.className = 'wokoo-app'
   }
 
   getQueryName = () => {
