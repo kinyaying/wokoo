@@ -42,28 +42,28 @@ wokoo my-plugin
 ├── README.md
 ├── package-lock.json
 ├── package.json
-├── public
+├── public                       公共资源
 │   ├── favicon.ico
 │   ├── icon.jpg
 │   └── index.html
-├── react-template
+├── react-template               react模板
 │   ├── README.md
 │   ├── src
 │   │   ├── app.css
 │   │   ├── app.js
 │   │   └── index.js
-│   ├── tampermonkey.txt
+│   ├── tampermonkey.js          油猴插件基础配置文件
 │   ├── template.json
-│   └── webpack.config.base.js
-├── vue-template
+│   └── webpack.config.base.js   针对react的webpack配置项
+├── vue-template                 vue模板
 │   ├── README.md
 │   ├── src
 │   │   ├── app.less
 │   │   ├── app.vue
 │   │   └── index.js
-│   ├── tampermonkey.txt
+│   ├── tampermonkey.js          油猴插件基础配置文件
 │   ├── template.json
-│   └── webpack.config.base.js
+│   └── webpack.config.base.js   针对vue的webpack配置项
 └── webpack.config.js
 ```
 

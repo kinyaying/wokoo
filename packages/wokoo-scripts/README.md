@@ -43,9 +43,9 @@ wokoo my-plugin
 .
 ├── README.md
 ├── bin
-│   └── www
-├── index.js
-├── modifyTemplate.js
+│   └── www             入口文件
+├── index.js            主程序
+├── modifyTemplate.js   将temp目录下的ejs语法，替换成js变量
 ├── package-lock.json
 └── package.json
 ```
