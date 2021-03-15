@@ -30,7 +30,8 @@
   ```
 
 3. 复制tampermonkey.js内容到 [油猴插件编辑器](chrome-extension://dhdgffkkebhmkfjojejmpbldmpobfkfo/options.html#url=&nav=new-user-script) ，注意：要复制全部内容，包括注释部分。（此步骤默认你已经安装了油猴插件，没安装的话就安装下 👉[油猴插件安装地址](https://chrome.google.com/webstore/detail/tampermonkey-beta/gcalenpjmijncebpfijmoaglllgpjagf?hl=zh-CN)）
-![image-20210315193305491](/Users/kin/Library/Application Support/typora-user-images/image-20210315193305491.png)
+
+
 
 4. 打开某网页，你能看到一只的猴子🐒，代表流程已跑通，你只需开发自己的业务代码即可🎉。
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4304f711784a440db86d03f237f0b81a~tplv-k3u1fbpfcp-watermark.image)
