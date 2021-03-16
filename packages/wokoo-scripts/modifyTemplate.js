@@ -16,7 +16,6 @@ render = promisify(render) // 包装渲染方法
     }
  */
 async function handleTemplate(fromPath, toPath, config) {
-  fromPath = '/Users/kin/MyCode/wokoo/packages/wokoo-template/react-template'
   console.log('fromPath::', fromPath)
 
   await new Promise((resovle, reject) => {
