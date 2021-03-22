@@ -9,7 +9,7 @@
 
 ## 使用
 
-1. 安装[油猴插件](https://chrome.google.com/webstore/detail/tampermonkey-beta/gcalenpjmijncebpfijmoaglllgpjagf?hl=zh-CN)
+1. 安装[油猴插件](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN)，没有梯子的同学可以从 chrome 商店镜像下载，比如[收藏猫插件](https://chrome.pictureknow.com/extension?id=4d999497b75d4eb6acf4d0db3053f1af)
 2. 安装[MoveSearch](https://greasyfork.org/zh-CN/scripts/421189-movesearch)
 
 ## 开发
