@@ -31,4 +31,4 @@
    ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/811cad2db5cb4332bfec83ea697aa2a2~tplv-k3u1fbpfcp-watermark.image)
 
 4. 打开某网页，你能看到一只的猴子 🐒，代表流程已跑通，你只需开发自己的业务代码即可 🎉。
-   ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6f8e6a5a044f4f2980febedf066bbcd1~tplv-k3u1fbpfcp-watermark.image)
+   ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6f8e6a5a044f4f2980febedf066bbcd1~tplv-k3u1fbpfcp-watermark.gif)
