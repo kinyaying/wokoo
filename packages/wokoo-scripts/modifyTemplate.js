@@ -16,8 +16,6 @@ render = promisify(render) // 包装渲染方法
     }
  */
 async function handleTemplate(fromPath, toPath, config) {
-  console.log('fromPath::', fromPath)
-
   await new Promise((resovle, reject) => {
     MetalSmith(__dirname)
       .source(fromPath) // 遍历下载的目录
