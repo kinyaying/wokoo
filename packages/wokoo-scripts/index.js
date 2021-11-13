@@ -79,6 +79,7 @@ async function run(root, appName, target) {
   let targetTemplate
   if(target) {
     targetTemplate = target
+    console.log('This is a test project:' + target)
   } else {
     const data = await inquirer.prompt({
       name: 'targetTemplate',
