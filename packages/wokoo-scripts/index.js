@@ -10,22 +10,25 @@ let program = new Command()
 init()
 // 程序入口，读取命令行脚本，获得项目名称
 async function init() {
-  let projectName
+  let projectName, target
   program
     .version(packageJson.version)
     .arguments('<project-directory>') // 项目目录名 参数格式：<必选> [可选]
     .usage(`${chalk.green(`<project-directory>`)}`)
-    .action((name) => {
+    .option('-t, --target [value]', 'chose template')
+    .action((...argvs) => {
+      const [name] = argvs
       projectName = name
+      target = argvs[1].target
     })
     .parse(process.argv) // [node路径，脚本路径，参数]
-  await createApp(projectName)
+  await createApp(projectName, target)
 }
 /**
  * 根据appName生成项目目录
  * @param {*} appName
  */
-async function createApp(appName) {
+async function createApp(appName, target) {
   let root = path.resolve(appName) // 要生成的项目的绝对路径
   fs.ensureDirSync(appName) // 没有则创建文件夹
   console.log(`create a new app in ${chalk.green(root)}`)
@@ -47,7 +50,7 @@ async function createApp(appName) {
   // 改变工作目录，进入项目目录
   process.chdir(root)
   // 复制项目模板，安装项目依赖等
-  await run(root, appName)
+  await run(root, appName, target)
 }
 /**
  1、安装wokoo-template
@@ -58,7 +61,7 @@ async function createApp(appName) {
  * @param {*} root 项目路径
  * @param {*} appName 项目名
  */
-async function run(root, appName) {
+async function run(root, appName, target) {
   const templateName = 'wokoo-template' // 对应的wokoo模板
   const allDependencies = [templateName]
   // 安装wokoo-template包
@@ -73,12 +76,18 @@ async function run(root, appName) {
 
   // 选择模板
   const repos = ['vue', 'react']
-  const { targetTemplate } = await inquirer.prompt({
-    name: 'targetTemplate',
-    type: 'list',
-    message: 'which template do you prefer?',
-    choices: repos, // 选择模式
-  })
+  let targetTemplate
+  if(target) {
+    targetTemplate = target
+  } else {
+    const data = await inquirer.prompt({
+      name: 'targetTemplate',
+      type: 'list',
+      message: 'which template do you prefer?',
+      choices: repos, // 选择模式
+    })
+    targetTemplate = data.targetTemplate
+  }
 
   const templatePath = path.dirname(
     require.resolve(`${templateName}/package.json`, { paths: [root] })
@@ -175,7 +184,7 @@ async function doAction(root, allDependencies, action = 'install') {
       '--loglevel',
       'error',
       ...allDependencies,
-      '--cwd',
+      '--prefix',
       root,
     ]
     const child = spawn(command, args, { stdio: 'inherit' })
